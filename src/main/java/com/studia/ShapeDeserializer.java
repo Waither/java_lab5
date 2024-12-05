@@ -17,7 +17,7 @@ public class ShapeDeserializer extends JsonDeserializer<Shape> {
         ObjectMapper mapper = (ObjectMapper) parser.getCodec();
         JsonNode node = mapper.readTree(parser);
 
-        Color color = null;
+        Color color = new Color(255,255,255,0);
         if (node.has("color")) {
             JsonNode colorNode = node.get("color");
             color = new Color(

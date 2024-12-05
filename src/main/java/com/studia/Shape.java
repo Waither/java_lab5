@@ -15,7 +15,6 @@ public abstract class Shape {
     private int id;
 
     private String name;
-
     public Color color;
 
     Shape(){

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
@@ -19,10 +21,10 @@ public class ShapeDeserializer extends JsonDeserializer<Shape> {
         if (node.has("color")) {
             JsonNode colorNode = node.get("color");
             color = new Color(
-                colorNode.get("red").asInt(),
-                colorNode.get("green").asInt(),
-                colorNode.get("blue").asInt(),
-                (float) colorNode.get("alpha").asDouble()
+                    colorNode.get("red").asInt(),
+                    colorNode.get("green").asInt(),
+                    colorNode.get("blue").asInt(),
+                    (float) colorNode.get("alpha").asDouble()
             );
         }
 
@@ -51,6 +53,10 @@ public class ShapeDeserializer extends JsonDeserializer<Shape> {
             return rectangle;
         }
 
-        throw new IllegalArgumentException("Nieznany typ Shape w JSON");
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Nieznany typ Shape: JSON musi zawierać pola 'radius', 'a, b, c' lub 'height, width'. Przesłany JSON: " + node.toString()
+        );
+
     }
 }

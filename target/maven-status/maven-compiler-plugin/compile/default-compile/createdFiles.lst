@@ -1,10 +1,11 @@
+com\studia\ShapeService.class
+com\studia\Triangle.class
+com\studia\Rectangle.class
+com\studia\ShapeDeserializer.class
 com\studia\Circle.class
 com\studia\Main.class
 com\studia\ShapeRepository.class
-com\studia\ShapeService.class
+com\studia\ShapeController.class
 com\studia\Color.class
-com\studia\Triangle.class
 com\studia\MainApplication.class
 com\studia\Shape.class
-com\studia\Rectangle.class
-com\studia\ShapeDAO.class

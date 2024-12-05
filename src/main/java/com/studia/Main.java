@@ -1,17 +1,61 @@
 package com.studia;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        ShapeDAO shapeDAO = new ShapeDAO();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        Shape triangle = new Triangle("Triangle", 9, 5, 5.4);
+        Shape circle = new Circle("Circle", 7, new Color(249, 12, 24, 1));
+        Shape rectangle = new Rectangle("Rectangle", 4, 6, new Color(249, 12, 24, 1));
+
+        shapeDAO.saveShape(triangle);
+        shapeDAO.saveShape(circle);
+        shapeDAO.saveShape(rectangle);
+
+        System.out.println("Pobrane figury:");
+        Shape retrievedTriangle = shapeDAO.getShape(Triangle.class, triangle.getId());
+        Shape retrievedCircle = shapeDAO.getShape(Circle.class, circle.getId());
+        Shape retrievedRectangle = shapeDAO.getShape(Rectangle.class, rectangle.getId());
+
+        System.out.println(retrievedTriangle.getName());
+        System.out.println(retrievedCircle.getName());
+        System.out.println(retrievedRectangle.getName());
+
+        retrievedTriangle.setName("Updated Triangle");
+        ((Triangle) retrievedTriangle).setB(12.5);
+        shapeDAO.updateShape(retrievedTriangle);
+
+        retrievedCircle.setName("Updated Circle");
+        ((Circle) retrievedCircle).setRadius(9.5);
+        shapeDAO.updateShape(retrievedCircle);
+
+        retrievedRectangle.setName("Updated Rectangle");
+        ((Rectangle) retrievedRectangle).setWidth(10);
+        shapeDAO.updateShape(retrievedRectangle);
+
+        System.out.println("\nPo aktualizacji:");
+        retrievedTriangle = shapeDAO.getShape(Triangle.class, triangle.getId());
+        retrievedCircle = shapeDAO.getShape(Circle.class, circle.getId());
+        retrievedRectangle = shapeDAO.getShape(Rectangle.class, rectangle.getId());
+
+        System.out.println(retrievedTriangle.getName() + ", area: " + ((Triangle) retrievedTriangle).getArea() + ", perimeter: " + ((Triangle) retrievedTriangle).getPerimeter() + ", color: " + ((Triangle) retrievedTriangle).getColorDescription());
+        System.out.println(retrievedCircle.getName() + ", area: " + ((Circle) retrievedCircle).getArea() + ", perimeter: " + ((Circle) retrievedCircle).getPerimeter() + ", color: " + ((Circle) retrievedCircle).getColorDescription());
+        System.out.println(retrievedRectangle.getName() + ", area: " + ((Rectangle) retrievedRectangle).getArea() + ", perimeter: " + ((Rectangle) retrievedRectangle).getPerimeter() + ", color: " + ((Rectangle) retrievedRectangle).getColorDescription());
+
+        System.out.println("\nUsuwanie figur...");
+        shapeDAO.deleteShape(triangle);
+        shapeDAO.deleteShape(circle);
+        shapeDAO.deleteShape(rectangle);
+
+        System.out.println("\nPotwierdzenie usunięcia:");
+        Shape deletedTriangle = shapeDAO.getShape(Triangle.class, triangle.getId());
+        Shape deletedCircle = shapeDAO.getShape(Circle.class, circle.getId());
+        Shape deletedRectangle = shapeDAO.getShape(Rectangle.class, rectangle.getId());
+
+        System.out.println(deletedTriangle == null ? "Triangle został usunięty." : "Triangle istnieje.");
+        System.out.println(deletedCircle == null ? "Circle został usunięty." : "Circle istnieje.");
+        System.out.println(deletedRectangle == null ? "Rectangle został usunięty." : "Rectangle istnieje.");
+
+        ShapeDAO.shutdown();
     }
 }
